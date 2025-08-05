@@ -1,0 +1,11 @@
+# JetBrains IDEs
+.idea/
+
+# Python
+.venv/
+__pycache__/
+app/__pycache__/
+*.pyc
+
+# Session data
+app/session.json

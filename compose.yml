@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   insta-bot:
-    build: .
+    build:
+      context: .
+      dockerfile: build/Dockerfile
     container_name: insta-bot
     restart: always
     volumes:

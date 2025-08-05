@@ -22,7 +22,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-SESSION_FILE = "session.json"
+SESSION_FILE = os.path.join(os.path.dirname(__file__), "session.json")
 
 cl = instagrapi.Client()
 
