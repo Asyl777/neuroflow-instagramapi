@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  insta-bot:
+    build: .
+    container_name: insta-bot
+    restart: always
+    volumes:
+      - ./app/session.json:/app/session.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.insta-bot.rule=Host(`insta.neuroflow.kz`)"
+      - "traefik.http.services.insta-bot.loadbalancer.server.port=8000"

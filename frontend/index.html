@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram API Client</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        .container { max-width: 600px; margin: auto; }
+        input, button { display: block; width: 100%; margin-bottom: 1em; padding: 0.5em; }
+        pre { background-color: #f4f4f4; padding: 1em; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Instagram API Client</h1>
+
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Instagram Username">
+        <input type="password" id="password" placeholder="Instagram Password">
+        <button onclick="login()">Login</button>
+
+        <h2>Send Message</h2>
+        <input type="text" id="recipient" placeholder="Recipient Username">
+        <input type="text" id="message" placeholder="Message Text">
+        <button onclick="sendMessage()">Send</button>
+
+        <h2>Actions</h2>
+        <button onclick="getInbox()">Get Inbox</button>
+        <button onclick="getDialogs()">Get Dialogs</button>
+
+        <h2>Response</h2>
+        <pre id="response"></pre>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000'; // Замените на URL вашего API, если он другой
+        const API_KEY = 'neuro123';
+
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY
+                },
+                body: JSON.stringify({ username, password })
+            });
+            document.getElementById('response').textContent = JSON.stringify(await response.json(), null, 2);
+        }
+
+        async function sendMessage() {
+            const username = document.getElementById('recipient').value;
+            const text = document.getElementById('message').value;
+            const response = await fetch(`${API_URL}/send_message`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': API_KEY
+                },
+                body: JSON.stringify({ username, text })
+            });
+            document.getElementById('response').textContent = JSON.stringify(await response.json(), null, 2);
+        }
+
+        async function getInbox() {
+            const response = await fetch(`${API_URL}/inbox`, {
+                headers: { 'x-api-key': API_KEY }
+            });
+            document.getElementById('response').textContent = JSON.stringify(await response.json(), null, 2);
+        }
+
+        async function getDialogs() {
+            const response = await fetch(`${API_URL}/dialogs`, {
+                headers: { 'x-api-key': API_KEY }
+            });
+            document.getElementById('response').textContent = JSON.stringify(await response.json(), null, 2);
+        }
+    </script>
+</body>
+</html>
