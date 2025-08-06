@@ -9,3 +9,6 @@ app/__pycache__/
 
 # Session data
 app/session.json
+
+# Environment
+.env

@@ -1,3 +1,6 @@
 fastapi
 uvicorn
 instagrapi
+psycopg2-binary
+SQLAlchemy
+python-dotenv

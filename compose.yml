@@ -1,15 +1,33 @@
 version: '3.8'
 
 services:
+  postgres:
+    image: postgres:13
+    container_name: postgres_insta
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "${DB_PORT}:5432"
+    restart: always
+
   insta-bot:
     build:
       context: .
       dockerfile: build/Dockerfile
     container_name: insta-bot
+    env_file:
+      - .env
+    depends_on:
+      - postgres
     restart: always
-    volumes:
-      - ./app/session.json:/app/session.json
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.insta-bot.rule=Host(`insta.neuroflow.kz`)"
+      - "traefik.http.routers.insta-bot.rule=Host(`${DOMAIN}`)"
       - "traefik.http.services.insta-bot.loadbalancer.server.port=8000"
+
+volumes:
+  postgres_data:
